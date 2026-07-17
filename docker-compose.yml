@@ -1,0 +1,25 @@
+# Levanta un PostgreSQL local para desarrollo.
+# Uso:  docker compose up -d
+# Coincide con el DATABASE_URL de backend/.env.example (opción A).
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: health_crud_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: health
+      POSTGRES_PASSWORD: health
+      POSTGRES_DB: health_crud
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U health -d health_crud']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

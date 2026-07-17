@@ -1,0 +1,36 @@
+// Prisma schema — modelo de datos de la BD PostgreSQL
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Paciente {
+  id              String   @id @default(uuid())
+  nombre          String
+  apellidos       String
+  email           String   @unique
+  telefono        String
+  // Guardamos la fecha como texto "YYYY-MM-DD" para conservar el mismo
+  // contrato que usa el frontend (input type="date") sin líos de zona horaria.
+  // En un sistema real usarías @db.Date.
+  fechaNacimiento String
+  genero          Genero
+  grupoSanguineo  String?
+  alergias        String[] @default([])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("pacientes")
+}
+
+enum Genero {
+  masculino
+  femenino
+  otro
+}
