@@ -1,142 +1,95 @@
-# Health CRUD · Pacientes
+# Health CRUD — Patient Management
 
-CRUD completo de **pacientes** para una health startup, con la stack pedida:
+A patient management CRUD service built with Node.js, Express and TypeScript on
+the backend, Next.js on the frontend, and PostgreSQL via Prisma for persistence.
 
-- **Backend:** Node.js + Express + TypeScript (API REST)
-- **Frontend:** Next.js (App Router) + TypeScript
-- **Base de datos:** PostgreSQL con **Prisma** (ORM)
-- **Validación:** Zod
+## Stack
 
-> 📚 **¿Estás aprendiendo?** Hay una **guía paso a paso desde cero** (pensada para
-> quien nunca ha hecho un CRUD) en [`docs/`](docs/README.md). Explica cada
-> concepto y cada archivo poco a poco, con analogías.
+- **API:** Node.js, Express, TypeScript
+- **Client:** Next.js (App Router), React, TypeScript
+- **Database:** PostgreSQL 16, accessed through Prisma
+- **Validation:** Zod
+- **Local infrastructure:** Docker Compose
+
+## Quick start
+
+Requires Node.js 18+ and Docker Desktop (WSL2 on Windows). From the repository
+root:
+
+```powershell
+.\start.ps1     # Windows
+```
+
+```bash
+./start.sh      # macOS / Linux
+```
+
+The script provisions PostgreSQL, installs dependencies on first run, applies
+migrations, seeds sample data, and starts both services. Then open
+`http://localhost:3000`.
+
+## Manual setup
+
+```bash
+# 1. Database
+docker compose up -d
+
+# 2. API — http://localhost:3001
+cd backend
+npm install
+cp .env.example .env            # Copy-Item on PowerShell
+npm run db:migrate
+npm run db:seed                 # optional sample data
+npm run dev
+
+# 3. Client — http://localhost:3000
+cd ../frontend
+npm install
+npm run dev
+```
+
+## Project structure
 
 ```
 CRUD-Practice/
-├── docker-compose.yml   → PostgreSQL local (opcional)
-├── backend/             → API REST en http://localhost:3001
-│   ├── prisma/
-│   │   ├── schema.prisma            → modelo de datos (tabla pacientes)
-│   │   └── seed.ts                  → datos de ejemplo
+├── docker-compose.yml          Local PostgreSQL
+├── start.ps1 / start.sh        One-command startup
+├── backend/                    Express + TypeScript API
+│   ├── prisma/                 Schema, migrations, seed
 │   └── src/
-│       ├── index.ts                 → arranque del servidor
-│       ├── routes/                  → definición de rutas
-│       ├── controllers/             → lógica de cada endpoint (async)
-│       ├── data/
-│       │   ├── prisma.ts            → cliente Prisma
-│       │   └── store.ts             → consultas a la BD
-│       ├── middleware/              → errores + validación
-│       └── types/paciente.ts        → DTOs + esquemas Zod
-└── frontend/            → UI en http://localhost:3000
-    ├── app/                         → páginas (listar / crear / editar)
-    ├── components/PacienteForm.tsx  → formulario reutilizable
-    └── lib/api.ts                   → cliente HTTP + tipos
+│       ├── index.ts            App bootstrap
+│       ├── routes/             Route definitions
+│       ├── controllers/        Request handling
+│       ├── data/               Prisma client + queries
+│       ├── middleware/         Error handling
+│       └── types/              Zod schemas + types
+├── frontend/                   Next.js client
+│   ├── app/                    Pages (list / create / edit)
+│   ├── components/             Shared form
+│   └── lib/api.ts              Typed API client
+└── docs/                       Technical documentation
 ```
 
-## 🚀 Arranque rápido (un solo comando)
+## API
 
-Si ya tienes **Node.js** y **Docker Desktop** instalados y en marcha, no hace
-falta hacer nada más a mano: hay un script que levanta la base de datos, instala
-dependencias, prepara la BD y arranca backend + frontend automáticamente.
+Base path `/api/pacientes`:
 
-**Windows (PowerShell):**
-```powershell
-.\start.ps1     # arranca todo
-.\stop.ps1      # para la base de datos
-```
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/` | List patients |
+| GET | `/:id` | Get one |
+| POST | `/` | Create |
+| PUT | `/:id` | Update |
+| DELETE | `/:id` | Delete |
 
-**Mac / Linux:**
-```bash
-./start.sh      # arranca todo (Ctrl+C para parar)
-```
+## Documentation
 
-Cuando termine, abre **http://localhost:3000**. La primera vez tarda más (instala
-dependencias y crea la BD); las siguientes es casi instantáneo.
+Technical documentation lives in [`docs/`](docs/README.md): architecture,
+backend, database, frontend, and development guides.
 
-> ¿Prefieres hacerlo paso a paso para entender cada parte? Sigue leyendo. Y si
-> estás aprendiendo, ve a la [guía de `docs/`](docs/README.md).
+## Notes
 
-## Requisitos
-
-- Node.js 18+
-- **Docker Desktop** (para la base de datos). En Windows necesita WSL2 — ver la
-  [guía de ejecución](docs/06-ejecucion.md) si te da problemas.
-- Alternativa sin Docker: un **PostgreSQL** accesible (local o en la nube). Opciones:
-
-### Opción A — Postgres con Docker (recomendado)
-
-```bash
-docker compose up -d        # levanta Postgres en localhost:5432
-```
-
-Las credenciales ya coinciden con `backend/.env.example`.
-
-### Opción B — Postgres en la nube (Neon, Supabase, Railway…)
-
-Crea una BD gratis y copia su cadena de conexión (`postgresql://…`).
-
-## Puesta en marcha
-
-### 1. Backend
-
-```bash
-cd backend
-npm install
-cp .env.example .env        # y edita DATABASE_URL si usas la opción B
-npm run db:migrate          # crea las tablas en Postgres
-npm run db:seed             # (opcional) inserta 2 pacientes de ejemplo
-npm run dev                 # API en http://localhost:3001
-```
-
-> En Windows PowerShell, en vez de `cp` usa `Copy-Item .env.example .env`.
-
-### 2. Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev                 # app en http://localhost:3000
-```
-
-## Scripts útiles del backend
-
-| Script               | Qué hace                                          |
-| -------------------- | ------------------------------------------------- |
-| `npm run dev`        | Arranca la API con recarga en caliente            |
-| `npm run db:migrate` | Aplica migraciones (crea/actualiza tablas)        |
-| `npm run db:seed`    | Inserta datos de ejemplo                          |
-| `npm run db:studio`  | Abre Prisma Studio (explorador visual de la BD)   |
-| `npm run build`      | `prisma generate` + compila TypeScript a `dist/`  |
-
-## Endpoints de la API
-
-| Método | Ruta                  | Descripción            |
-| ------ | --------------------- | ---------------------- |
-| GET    | `/api/pacientes`      | Listar todos           |
-| GET    | `/api/pacientes/:id`  | Obtener uno            |
-| POST   | `/api/pacientes`      | Crear                  |
-| PUT    | `/api/pacientes/:id`  | Actualizar             |
-| DELETE | `/api/pacientes/:id`  | Eliminar               |
-
-### Ejemplo (crear paciente)
-
-```bash
-curl -X POST http://localhost:3001/api/pacientes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "María",
-    "apellidos": "Pérez Gil",
-    "email": "maria.perez@example.com",
-    "telefono": "600555666",
-    "fechaNacimiento": "1992-03-21",
-    "genero": "femenino",
-    "grupoSanguineo": "B+",
-    "alergias": ["Polen"]
-  }'
-```
-
-## Notas
-
-- La validación (Zod) devuelve `400` con el detalle de los campos incorrectos; email duplicado devuelve `409`.
-- El archivo `.env` **no se sube a git** (contiene credenciales). Usa `.env.example` como plantilla.
-- ⚠️ Proyecto de práctica: no metas datos sanitarios reales (serían datos de salud sujetos a RGPD/normativa sanitaria).
+- `.env` files hold credentials and are git-ignored; `backend/.env.example` is
+  the committed template. To use a managed database (Neon, Supabase, RDS), point
+  `DATABASE_URL` at it — no other change required.
+- This is a practice project; do not store real patient data.

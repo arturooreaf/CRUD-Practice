@@ -6,22 +6,22 @@ import { errorHandler, notFound } from './middleware/errorHandler.js';
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 
-// --- Middlewares globales ---
-app.use(cors()); //            Permite peticiones desde el frontend (Next.js)
-app.use(express.json()); //    Parsea el body JSON de las peticiones
+// Global middleware
+app.use(cors()); // Allow cross-origin requests from the frontend
+app.use(express.json()); // Parse JSON request bodies
 
-// --- Healthcheck ---
+// Healthcheck
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', servicio: 'health-crud-backend' });
+  res.json({ status: 'ok', service: 'health-crud-backend' });
 });
 
-// --- Rutas de la API ---
+// API routes
 app.use('/api/pacientes', pacientesRouter);
 
-// --- Manejo de errores (siempre al final) ---
+// Error handling (registered last)
 app.use(notFound);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`🚀 API escuchando en http://localhost:${PORT}`);
+  console.log(`API listening on http://localhost:${PORT}`);
 });

@@ -1,6 +1,6 @@
-# Levanta un PostgreSQL local para desarrollo.
-# Uso:  docker compose up -d
-# Coincide con el DATABASE_URL de backend/.env.example (opción A).
+# Local PostgreSQL for development.
+# Usage: docker compose up -d
+# Credentials match DATABASE_URL in backend/.env.example (option A).
 
 services:
   db:

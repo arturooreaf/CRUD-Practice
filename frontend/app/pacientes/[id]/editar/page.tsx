@@ -16,7 +16,7 @@ export default function EditarPacientePage() {
     pacientesApi
       .obtener(id)
       .then((p) => {
-        // Nos quedamos solo con los campos del formulario.
+        // Keep only the form fields.
         const { id: _id, createdAt, updatedAt, ...resto } = p;
         setInicial(resto);
       })

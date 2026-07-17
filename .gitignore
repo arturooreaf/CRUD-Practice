@@ -1,20 +1,20 @@
-# Dependencias
+# Dependencies
 node_modules/
 
-# Builds / generados
+# Build output / generated
 dist/
 .next/
 backend/src/generated/
 
-# Entorno (¡nunca subir credenciales!)
+# Environment (never commit credentials)
 .env
 .env.*
 !.env.example
 frontend/.env.local
 
-# Logs / SO
+# Local editor config
+.claude/
+
+# Logs / OS
 *.log
 .DS_Store
-
-# Config local del editor
-.claude/

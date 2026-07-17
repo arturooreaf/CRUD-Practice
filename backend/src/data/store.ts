@@ -5,8 +5,7 @@ import type {
   ActualizarPacienteDTO,
 } from '../types/paciente.js';
 
-// --- Acceso a datos (PostgreSQL vía Prisma) ---
-// Antes esto era un Map en memoria; ahora cada operación va contra la BD.
+// Data-access layer. Every operation runs against PostgreSQL through Prisma.
 
 export function listar(): Promise<Paciente[]> {
   return prisma.paciente.findMany({

@@ -1,4 +1,4 @@
-// --- Tipos compartidos con el backend ---
+// Types shared with the backend.
 export type Genero = 'masculino' | 'femenino' | 'otro';
 export type GrupoSanguineo =
   | 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
@@ -17,7 +17,7 @@ export interface Paciente {
   updatedAt: string;
 }
 
-// Datos del formulario (lo que enviamos al crear/editar).
+// Form payload (what we send on create/update).
 export type PacienteInput = Omit<
   Paciente,
   'id' | 'createdAt' | 'updatedAt'
@@ -25,7 +25,7 @@ export type PacienteInput = Omit<
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
-// Helper genérico: hace la petición y traduce los errores de la API.
+// Generic request helper: performs the fetch and normalizes API errors.
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     headers: { 'Content-Type': 'application/json' },
@@ -44,17 +44,17 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
           .join(', ');
       }
     } catch {
-      /* respuesta sin cuerpo JSON */
+      /* response had no JSON body */
     }
     throw new Error(mensaje);
   }
 
-  // 204 No Content (por ejemplo, tras un DELETE) no trae body.
+  // 204 No Content (e.g. after a DELETE) has no body.
   if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;
 }
 
-// --- Funciones CRUD ---
+// CRUD functions.
 export const pacientesApi = {
   listar: () => request<Paciente[]>('/api/pacientes'),
   obtener: (id: string) => request<Paciente>(`/api/pacientes/${id}`),

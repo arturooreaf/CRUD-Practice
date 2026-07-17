@@ -2,8 +2,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Datos de ejemplo para no arrancar con la BD vacía.
-// `upsert` por email => se puede ejecutar varias veces sin duplicar.
+// Sample data so the database isn't empty on first run.
+// Uses upsert keyed by email, so it can run repeatedly without duplicating rows.
 async function main() {
   const pacientes = [
     {
@@ -36,12 +36,12 @@ async function main() {
     });
   }
 
-  console.log(`✅ Seed completado: ${pacientes.length} pacientes.`);
+  console.log(`Seed complete: ${pacientes.length} patients.`);
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error en el seed:', e);
+    console.error('Seed failed:', e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());

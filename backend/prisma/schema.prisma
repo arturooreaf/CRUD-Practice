@@ -1,4 +1,4 @@
-// Prisma schema — modelo de datos de la BD PostgreSQL
+// Prisma schema — PostgreSQL data model.
 // Docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -16,9 +16,8 @@ model Paciente {
   apellidos       String
   email           String   @unique
   telefono        String
-  // Guardamos la fecha como texto "YYYY-MM-DD" para conservar el mismo
-  // contrato que usa el frontend (input type="date") sin líos de zona horaria.
-  // En un sistema real usarías @db.Date.
+  // Stored as "YYYY-MM-DD" text to match the frontend date input contract and
+  // avoid timezone conversion issues. A production system would use @db.Date.
   fechaNacimiento String
   genero          Genero
   grupoSanguineo  String?

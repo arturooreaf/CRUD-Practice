@@ -48,7 +48,7 @@ body {
   margin-top: 0.15rem;
 }
 
-/* Botones */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -91,7 +91,7 @@ body {
   cursor: not-allowed;
 }
 
-/* Tabla */
+/* Table */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -135,7 +135,7 @@ tr:last-child td {
   justify-content: flex-end;
 }
 
-/* Formulario */
+/* Form */
 .form {
   background: var(--card);
   border: 1px solid var(--border);
@@ -181,7 +181,7 @@ select:focus {
   margin-top: 0.5rem;
 }
 
-/* Mensajes */
+/* Messages */
 .alert {
   padding: 0.8rem 1rem;
   border-radius: 8px;

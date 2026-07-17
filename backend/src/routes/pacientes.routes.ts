@@ -3,11 +3,11 @@ import * as controller from '../controllers/pacientes.controller.js';
 
 const router = Router();
 
-// CRUD de pacientes
-router.get('/', controller.listar); //     Listar todos
-router.get('/:id', controller.obtener); // Obtener uno
-router.post('/', controller.crear); //     Crear
-router.put('/:id', controller.actualizar); // Actualizar
-router.delete('/:id', controller.eliminar); // Eliminar
+// Patient CRUD
+router.get('/', controller.listar); //        List all
+router.get('/:id', controller.obtener); //     Get one
+router.post('/', controller.crear); //         Create
+router.put('/:id', controller.actualizar); //  Update
+router.delete('/:id', controller.eliminar); // Delete
 
 export default router;
