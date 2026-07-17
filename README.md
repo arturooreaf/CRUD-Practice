@@ -7,6 +7,10 @@ CRUD completo de **pacientes** para una health startup, con la stack pedida:
 - **Base de datos:** PostgreSQL con **Prisma** (ORM)
 - **Validación:** Zod
 
+> 📚 **¿Estás aprendiendo?** Hay una **guía paso a paso desde cero** (pensada para
+> quien nunca ha hecho un CRUD) en [`docs/`](docs/README.md). Explica cada
+> concepto y cada archivo poco a poco, con analogías.
+
 ```
 CRUD-Practice/
 ├── docker-compose.yml   → PostgreSQL local (opcional)
