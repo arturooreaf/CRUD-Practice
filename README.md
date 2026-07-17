@@ -33,10 +33,35 @@ CRUD-Practice/
     └── lib/api.ts                   → cliente HTTP + tipos
 ```
 
+## 🚀 Arranque rápido (un solo comando)
+
+Si ya tienes **Node.js** y **Docker Desktop** instalados y en marcha, no hace
+falta hacer nada más a mano: hay un script que levanta la base de datos, instala
+dependencias, prepara la BD y arranca backend + frontend automáticamente.
+
+**Windows (PowerShell):**
+```powershell
+.\start.ps1     # arranca todo
+.\stop.ps1      # para la base de datos
+```
+
+**Mac / Linux:**
+```bash
+./start.sh      # arranca todo (Ctrl+C para parar)
+```
+
+Cuando termine, abre **http://localhost:3000**. La primera vez tarda más (instala
+dependencias y crea la BD); las siguientes es casi instantáneo.
+
+> ¿Prefieres hacerlo paso a paso para entender cada parte? Sigue leyendo. Y si
+> estás aprendiendo, ve a la [guía de `docs/`](docs/README.md).
+
 ## Requisitos
 
 - Node.js 18+
-- Un **PostgreSQL** accesible. Tienes dos opciones:
+- **Docker Desktop** (para la base de datos). En Windows necesita WSL2 — ver la
+  [guía de ejecución](docs/06-ejecucion.md) si te da problemas.
+- Alternativa sin Docker: un **PostgreSQL** accesible (local o en la nube). Opciones:
 
 ### Opción A — Postgres con Docker (recomendado)
 
